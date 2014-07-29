@@ -1,0 +1,9 @@
+{
+	"name": "ucodeasm",
+	"description": "μcode assembler for the CPU",
+	"authors": ["Zdeněk Biberle", "Martin Hnátek"],
+	"license": "GPL-2.0",
+	"dependencies": {
+		"pegged": "~master"
+	}
+}
