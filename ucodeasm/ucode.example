@@ -1,7 +1,9 @@
 at 1
-nope: ldInst instJmp goto nope
+label1:
+	ldInst instJmp
+	ldData
+	goto label1
 
 # Handlery instrukci
 at ffc0
-
-ipInc goto nope
+	ipInc goto label1 # ALU op

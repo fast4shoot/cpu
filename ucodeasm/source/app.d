@@ -11,7 +11,7 @@ uCode:
 	Program < Line* eoi
 	Spacing <- space*
 	
-	Line < LiteralAddress? Label? (Instruction Goto?)? :Comment? :eol?
+	Line < LiteralAddress? Label? Instruction? Goto? :Comment? :eol?
 	Comment <- :'#' (!eol .)*
 	LiteralAddress <- :'at' :space+ ~(hexDigit+)
 	Instruction <- (InstructionPart :space*)+
@@ -58,7 +58,7 @@ int main(string[] args)
 	
 	foreach (ref line; pt.children[0].children)
 	{
-		if (ip == 0xffff)
+		if (ip == 0x10000)
 		{
 			throw new Exception("Can't exceed memory of 64 KiB");
 		}
@@ -120,10 +120,10 @@ int main(string[] args)
 			}
 		}
 		
-		if (!instruction.isNull)
+		if (!instruction.isNull || gotoLabel !is null)
 		{
 			instructions.length = ip + 1;
-			instructions[ip] = Instruction(0, instruction.get(), gotoLabel);
+			instructions[ip] = Instruction(0, instruction.isNull ? 0 : instruction.get(), gotoLabel);
 			ip++;
 			totalInstructions++;
 		}
@@ -132,10 +132,8 @@ int main(string[] args)
 	writefln("Populated %s B with %s instructions. Resolving labels...", instructions.length, totalInstructions);
 	uint referencedLabels = 0;
 	
-	foreach (i; 0..instructions.length)
+	foreach (i, ref instruction; instructions)
 	{
-		auto instruction = &instructions[i];
-		
 		if (!instruction.isNull)
 		{
 			if (instruction.gotoLabel !is null)
@@ -158,10 +156,15 @@ int main(string[] args)
 	writefln("Resolved %s labels. Writing result to file %s...", referencedLabels, args[2]);
 	
 	auto of = File(args[2], "wb");
-	of.writeln("v2.0 raw");
+	of.write("v2.0 raw");
 	
-	foreach (ref instruction; instructions)
+	foreach (i, ref instruction; instructions)
 	{
+		if (i % 8 == 0)
+		{
+			of.writeln();
+		}
+		
 		if (instruction.isNull)
 		{
 			of.write("0 ");
