@@ -1,6 +1,0 @@
-at 0
-nope: ldInst instJmp
-
-# Handlery instrukci
-at ffc0
-ipInc
