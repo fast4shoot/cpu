@@ -1,3 +1,4 @@
+import std.getopt;
 import std.algorithm;
 import std.conv;
 import std.exception;
@@ -22,9 +23,31 @@ uCode:
 
 int main(string[] args)
 {
-	enforce(args.length == 3, "Not enough parameters");
+	string oFile;
+	bool help = false;
+
+	getopt(
+		args,
+		"help|h", &help,
+		"output|o", &oFile
+	);
 	
-	auto source = readText(args[1]);
+	if(help||oFile is null)
+	{
+		writeln("Usage: ucode [OPTION] [STRING]");
+		writeln("-h, --help");
+		writeln("    print this help");
+		writeln("-o, --output");
+		writeln("write to file");
+		return 0;
+	}
+
+	string source;         
+	foreach(line; stdin.byLine())
+        {
+              source ~= line ~ '\n';
+	}
+
 	auto pt = uCode(source);
 	if (!pt.successful)
 	{
@@ -153,9 +176,9 @@ int main(string[] args)
 		}
 	}
 	
-	writefln("Resolved %s labels. Writing result to file %s...", referencedLabels, args[2]);
+	writefln("Resolved %s labels. Writing result to file %s...", referencedLabels, oFile);
 	
-	auto of = File(args[2], "wb");
+	auto of = File(oFile, "wb");
 	of.write("v2.0 raw");
 	
 	foreach (i, ref instruction; instructions)
