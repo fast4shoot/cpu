@@ -15,14 +15,14 @@ uCode:
 	Comment <- :'#' (!eol .)*
 	LiteralAddress <- :'at' :space+ ~(hexDigit+)
 	Instruction <- (InstructionPart :space*)+
-	InstructionPart <- 'ldInst' / 'ldData' / 'instJmp' / 'ipInc' / 'aluToDb' / 'dstToDb' / 'regWrite' / 'memClk' / 'dataToDb'
+	InstructionPart <- 'ldData' / 'instJmp' / 'ipInc' / 'aluToDb' / 'dstToDb' / 'regWrite' / 'memClk' / 'memWrite' / 'dataToDb' / 'aluPassthrough'
 	Goto <- :'goto' :space+ identifier
 	Label < identifier :':'
 "));
 
 int main(string[] args)
 {
-	enforce(args.length == 3, "Not enough parameters");
+	enforce(args.length == 3, "Missing parameters");
 	
 	auto source = readText(args[1]);
 	auto pt = uCode(source);
@@ -40,7 +40,7 @@ int main(string[] args)
 	}
 	
 	immutable bitMapping = [
-		"ldInst" : 1<<0,
+		//"ldInst" : 1<<0,
 		"ldData" : 1<<1,
 		"instJmp" : 1<<2,
 		"ipInc" : 1<<3,
@@ -48,7 +48,9 @@ int main(string[] args)
 		"dstToDb" : 1<<5,
 		"regWrite" : 1<<6,
 		"memClk" : 1<<7,
-		"dataToDb" : 1<<8
+		"memWrite" : 1<<8,
+		"dataToDb" : 1<<9,
+		"aluPassthrough" : 1 << 10
 	];
 	
 	uint ip = 0;

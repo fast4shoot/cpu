@@ -1,0 +1,22 @@
+at 0
+loadInstruction:
+	instJmp
+
+movImmToDst:
+	dataToDb regWrite ipInc goto loadInstruction
+
+movSrcMemToDst:
+	regWrite ipInc goto loadInstruction
+
+at ffc0 
+# 00 - NOP
+	ipInc goto loadInstruction
+# 01 - src to dst ALU operation (MOV, SHL, SHR, ADD, SUB, NAND, NEG, INC, DEC)
+	aluToDb regWrite ipInc goto loadInstruction
+# 02 - MOV imm to dst
+	ipInc ldData goto movImmToDst
+# 03 - MOV [src] to dst
+	memClk goto movSrcMemToDst
+# 04 - MOV dst to [src]
+	dstToDb memClk memWrite ipInc goto loadInstruction
+
