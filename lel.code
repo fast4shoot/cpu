@@ -1,0 +1,44 @@
+ld0 r2
+mov r1 0xff83
+mov [r2] r1
+inc r2 r2
+mov [r2] r1
+inc r2 r2
+
+mov r1 0x0183
+mov [r2] r1
+inc r2 r2
+mov [r2] r1
+inc r2 r2
+mov [r2] r1
+inc r2 r2
+mov [r2] r1
+inc r2 r2
+mov [r2] r1
+inc r2 r2
+
+mov r1 0xffff
+mov [r2] r1
+inc r2 r2
+mov [r2] r1
+inc r2 r2
+
+mov r1 0xc180
+mov [r2] r1
+inc r2 r2
+mov [r2] r1
+inc r2 r2
+mov [r2] r1
+inc r2 r2
+mov [r2] r1
+inc r2 r2
+mov [r2] r1
+inc r2 r2
+
+mov r1 0xc1ff
+mov [r2] r1
+inc r2 r2
+mov [r2] r1
+inc r2 r2
+
+halt: mov ip halt

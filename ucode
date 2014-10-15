@@ -11,7 +11,7 @@ movSrcMemToDst:
 at ffc0 
 # 00 - NOP
 	ipInc goto loadInstruction
-# 01 - src to dst ALU operation (MOV, SHL, SHR, ADD, SUB, NAND, NEG, INC, DEC)
+# 01 - src to dst ALU operation (MOV, SHL, SHR, ADD, SUB, NAND, NEG, INC, DEC, LD0, LD1)
 	aluToDb regWrite ipInc goto loadInstruction
 # 02 - MOV imm to dst
 	ipInc ldData goto movImmToDst

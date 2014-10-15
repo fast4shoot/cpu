@@ -1,0 +1,11 @@
+at 0
+	mov r1 10
+	mov r2 10
+smycka:
+	add r2 r1
+	add r2 r1
+	inc r1 r1
+	shl r2 r2
+	mov ip smycka
+
+	

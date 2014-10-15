@@ -1,8 +1,8 @@
 {
-	"name": "ucodeasm",
-	"description": "μcode assembler for the CPU",
+	"name": "codeasm",
+	"description": "code assembler for the CPU",
 	"authors": ["Zdeněk Biberle", "Martin Hnátek"],
-	"license": "GPL-2.0",
+	"license": "WTFPL",
 	"dependencies": {
 		"pegged": ">=0.1.0"
 	}
